@@ -1,0 +1,5 @@
+[
+  { "resource_id": "RescueTeam-1", "route": [[9.9312, 76.2673], [9.9320, 76.2650], [9.9330, 76.2630]], "eta_minutes": 14 },
+  { "resource_id": "RescueTeam-2", "route": [[9.9400, 76.2600], [9.9380, 76.2620], [9.9350, 76.2650]], "eta_minutes": 9 },
+  { "resource_id": "Ambulance-1", "route": [[9.9250, 76.2750], [9.9260, 76.2730]], "eta_minutes": 6 }
+]

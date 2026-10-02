@@ -1,0 +1,5 @@
+[
+  { "resource_id": "RescueTeam-1", "assigned_zone": "Z1", "base_lat": 9.9312, "base_lng": 76.2673 },
+  { "resource_id": "RescueTeam-2", "assigned_zone": "Z3", "base_lat": 9.9400, "base_lng": 76.2600 },
+  { "resource_id": "Ambulance-1", "assigned_zone": "Z2", "base_lat": 9.9250, "base_lng": 76.2750 }
+]
