@@ -1,5 +1,22 @@
 [
-  { "zone_id": "Z1", "flood_pct": 0.62, "mask_confidence": 0.88 },
-  { "zone_id": "Z2", "flood_pct": 0.25, "mask_confidence": 0.91 },
-  { "zone_id": "Z3", "flood_pct": 0.80, "mask_confidence": 0.79 }
+  {
+    "zone_id": "Z1",
+    "flood_pct": 0.78,
+    "mask_confidence": 0.91
+  },
+  {
+    "zone_id": "Z2",
+    "flood_pct": 0.52,
+    "mask_confidence": 0.87
+  },
+  {
+    "zone_id": "Z3",
+    "flood_pct": 0.86,
+    "mask_confidence": 0.89
+  },
+  {
+    "zone_id": "Z4",
+    "flood_pct": 0.34,
+    "mask_confidence": 0.93
+  }
 ]

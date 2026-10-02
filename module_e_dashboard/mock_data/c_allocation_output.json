@@ -1,5 +1,26 @@
 [
-  { "resource_id": "RescueTeam-1", "assigned_zone": "Z1", "base_lat": 9.9312, "base_lng": 76.2673 },
-  { "resource_id": "RescueTeam-2", "assigned_zone": "Z3", "base_lat": 9.9400, "base_lng": 76.2600 },
-  { "resource_id": "Ambulance-1", "assigned_zone": "Z2", "base_lat": 9.9250, "base_lng": 76.2750 }
+  {
+    "resource_id": "RescueTeam-1",
+    "assigned_zone": "Z3",
+    "base_lat": 27.9226,
+    "base_lng": 85.1490
+  },
+  {
+    "resource_id": "RescueTeam-2",
+    "assigned_zone": "Z1",
+    "base_lat": 27.9143,
+    "base_lng": 85.1647
+  },
+  {
+    "resource_id": "Ambulance-1",
+    "assigned_zone": "Z2",
+    "base_lat": 27.8978,
+    "base_lng": 85.1392
+  },
+  {
+    "resource_id": "MedicalTeam-1",
+    "assigned_zone": "Z4",
+    "base_lat": 27.9300,
+    "base_lng": 85.1600
+  }
 ]
