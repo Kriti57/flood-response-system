@@ -1,0 +1,24 @@
+{
+  "assignments": [
+    {
+      "resource_id": "RescueTeam-2",
+      "assigned_zone": "Z1",
+      "base_lat": 27.9143,
+      "base_lng": 85.1647
+    }
+  ],
+  "zone_destinations": {
+    "Z1": {
+      "lat": 27.9226,
+      "lng": 85.1490
+    }
+  },
+  "flood_data": [
+    {"zone_id": "Z1", "flood_pct": 0.78},
+    {"zone_id": "Z2", "flood_pct": 0.52},
+    {"zone_id": "Z3", "flood_pct": 0.86},
+    {"zone_id": "Z4", "flood_pct": 0.34}
+  ],
+  "zone_edges": {},
+  "blocked_edges": []
+}

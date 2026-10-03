@@ -1,0 +1,2 @@
+networkx>=3.2
+osmnx>=1.9
