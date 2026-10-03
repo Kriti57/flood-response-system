@@ -20,7 +20,7 @@ HERE = Path(__file__).resolve().parent
 RESCUE_FRACTION = 0.02      # share of affected people needing rescue in the first response wave
 AMBULANCE_MIN_ACCESS = 0.25  # ambulances need roads: ineligible below this road_accessibility
 BOAT_MAX_ACCESS = 0.70       # boats only useful where roads are cut: ineligible above this
-UNASSIGNED = "none"          # value of assigned_zone for an unused resource (confirm with Persons D/E)
+UNASSIGNED = None          # value of assigned_zone for an unused resource (confirm with Persons D/E)
 # ---------------------------------------------------------------------------
 
 RESOURCE_FIELDS = ("resource_id", "type", "capacity_people", "base_lat", "base_lng")
