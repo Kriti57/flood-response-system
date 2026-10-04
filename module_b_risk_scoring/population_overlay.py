@@ -5,18 +5,23 @@ from shapely.geometry import box
 from rasterstats import zonal_stats
 
 # ---------- SETTINGS (change these if needed) ----------
-RASTER_PATH = "data/worldpop.tif"   # WorldPop population COUNTS file
-ROWS, COLS = 4, 2                   # 4 x 2 grid = 8 zones (Z1..Z8)
-
-# Approximate bounding box for Greater Mumbai (share this with Person A!)
-MIN_LON, MAX_LON = 72.77, 72.99
-MIN_LAT, MAX_LAT = 18.89, 19.27
+RASTER_PATH = "data/worldpop.tif"   # WorldPop NEPAL population COUNTS file
+CENTER_LAT, CENTER_LON = 27.9226, 85.1490   # Trishuli / Nuwakot
+HALF_SIZE_KM = 10                   # box extends 10 km each way = 20 km x 20 km
+ROWS, COLS = 3, 3                   # 3 x 3 grid = 9 zones (Z1..Z9)
 # -------------------------------------------------------
 
 
-def make_grid(min_lon, max_lon, min_lat, max_lat, rows, cols):
-    """Split the bounding box into a rows x cols grid.
+def make_grid(center_lat, center_lon, half_size_km, rows, cols):
+    """Build a rows x cols grid centered on a point.
     Zones are numbered left to right, top to bottom (Z1 = top-left)."""
+    dlat = half_size_km / 111.0
+    dlon = half_size_km / (111.0 * np.cos(np.radians(center_lat)))
+    min_lat, max_lat = center_lat - dlat, center_lat + dlat
+    min_lon, max_lon = center_lon - dlon, center_lon + dlon
+    print(f"Bounding box: lon {min_lon:.4f} to {max_lon:.4f}, "
+          f"lat {min_lat:.4f} to {max_lat:.4f}")
+
     xs = np.linspace(min_lon, max_lon, cols + 1)
     ys = np.linspace(max_lat, min_lat, rows + 1)  # top to bottom
 
@@ -47,7 +52,7 @@ def add_population(zones, raster_path):
 if __name__ == "__main__":
     os.makedirs("data", exist_ok=True)
 
-    zones = make_grid(MIN_LON, MAX_LON, MIN_LAT, MAX_LAT, ROWS, COLS)
+    zones = make_grid(CENTER_LAT, CENTER_LON, HALF_SIZE_KM, ROWS, COLS)
     zones = add_population(zones, RASTER_PATH)
 
     print()
@@ -56,9 +61,8 @@ if __name__ == "__main__":
     print(f"\nTotal population in grid: {total:,}")
 
     if total == 0:
-        print("WARNING: total is 0. The raster probably does not cover this city.")
+        print("WARNING: total is 0. The raster probably does not cover this region.")
 
-    # Save for Day 2 (risk formula reads these)
     zones.to_file("data/zones.geojson", driver="GeoJSON")
     zones[["zone_id", "total_population"]].to_json(
         "data/population_per_zone.json", orient="records", indent=2
