@@ -1,0 +1,98 @@
+[
+  {
+    "resource_id": "RescueTeam-1",
+    "assigned_zone": "Z1",
+    "base_lat": 27.9186,
+    "base_lng": 85.143
+  },
+  {
+    "resource_id": "RescueTeam-2",
+    "assigned_zone": "Z1",
+    "base_lat": 27.9186,
+    "base_lng": 85.147
+  },
+  {
+    "resource_id": "RescueTeam-3",
+    "assigned_zone": "Z1",
+    "base_lat": 27.9186,
+    "base_lng": 85.151
+  },
+  {
+    "resource_id": "RescueTeam-4",
+    "assigned_zone": "Z1",
+    "base_lat": 27.9186,
+    "base_lng": 85.155
+  },
+  {
+    "resource_id": "RescueTeam-5",
+    "assigned_zone": "Z1",
+    "base_lat": 27.9146,
+    "base_lng": 85.143
+  },
+  {
+    "resource_id": "Ambulance-1",
+    "assigned_zone": "Z2",
+    "base_lat": 27.9246,
+    "base_lng": 85.143
+  },
+  {
+    "resource_id": "Ambulance-2",
+    "assigned_zone": "Z2",
+    "base_lat": 27.9246,
+    "base_lng": 85.147
+  },
+  {
+    "resource_id": "Ambulance-3",
+    "assigned_zone": "Z2",
+    "base_lat": 27.9246,
+    "base_lng": 85.151
+  },
+  {
+    "resource_id": "Ambulance-4",
+    "assigned_zone": "Z2",
+    "base_lat": 27.9246,
+    "base_lng": 85.155
+  },
+  {
+    "resource_id": "Ambulance-5",
+    "assigned_zone": "Z2",
+    "base_lat": 27.9286,
+    "base_lng": 85.143
+  },
+  {
+    "resource_id": "Ambulance-6",
+    "assigned_zone": "Z2",
+    "base_lat": 27.9286,
+    "base_lng": 85.147
+  },
+  {
+    "resource_id": "Ambulance-7",
+    "assigned_zone": "Z2",
+    "base_lat": 27.9286,
+    "base_lng": 85.151
+  },
+  {
+    "resource_id": "Ambulance-8",
+    "assigned_zone": "Z2",
+    "base_lat": 27.9286,
+    "base_lng": 85.155
+  },
+  {
+    "resource_id": "Boat-1",
+    "assigned_zone": "Z4",
+    "base_lat": 27.9106,
+    "base_lng": 85.143
+  },
+  {
+    "resource_id": "Boat-2",
+    "assigned_zone": "Z4",
+    "base_lat": 27.9106,
+    "base_lng": 85.147
+  },
+  {
+    "resource_id": "Boat-3",
+    "assigned_zone": "Z4",
+    "base_lat": 27.9106,
+    "base_lng": 85.151
+  }
+]

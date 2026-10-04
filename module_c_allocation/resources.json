@@ -1,0 +1,131 @@
+{
+  "_note": "Fleet is an ASSUMPTION (real data not public). Coordinates are offsets around the Trishuli/Nuwakot central point 27.9226, 85.1490 - PLACEHOLDERS, not real stations. Replace with real hospitals/fire stations if time allows.",
+  "resources": [
+    {
+      "resource_id": "RescueTeam-1",
+      "type": "rescue_team",
+      "capacity_people": 20,
+      "base_lat": 27.9186,
+      "base_lng": 85.143
+    },
+    {
+      "resource_id": "RescueTeam-2",
+      "type": "rescue_team",
+      "capacity_people": 20,
+      "base_lat": 27.9186,
+      "base_lng": 85.147
+    },
+    {
+      "resource_id": "RescueTeam-3",
+      "type": "rescue_team",
+      "capacity_people": 20,
+      "base_lat": 27.9186,
+      "base_lng": 85.151
+    },
+    {
+      "resource_id": "RescueTeam-4",
+      "type": "rescue_team",
+      "capacity_people": 20,
+      "base_lat": 27.9186,
+      "base_lng": 85.155
+    },
+    {
+      "resource_id": "RescueTeam-5",
+      "type": "rescue_team",
+      "capacity_people": 20,
+      "base_lat": 27.9146,
+      "base_lng": 85.143
+    },
+    {
+      "resource_id": "Ambulance-1",
+      "type": "ambulance",
+      "capacity_people": 4,
+      "base_lat": 27.9246,
+      "base_lng": 85.143
+    },
+    {
+      "resource_id": "Ambulance-2",
+      "type": "ambulance",
+      "capacity_people": 4,
+      "base_lat": 27.9246,
+      "base_lng": 85.147
+    },
+    {
+      "resource_id": "Ambulance-3",
+      "type": "ambulance",
+      "capacity_people": 4,
+      "base_lat": 27.9246,
+      "base_lng": 85.151
+    },
+    {
+      "resource_id": "Ambulance-4",
+      "type": "ambulance",
+      "capacity_people": 4,
+      "base_lat": 27.9246,
+      "base_lng": 85.155
+    },
+    {
+      "resource_id": "Ambulance-5",
+      "type": "ambulance",
+      "capacity_people": 4,
+      "base_lat": 27.9286,
+      "base_lng": 85.143
+    },
+    {
+      "resource_id": "Ambulance-6",
+      "type": "ambulance",
+      "capacity_people": 4,
+      "base_lat": 27.9286,
+      "base_lng": 85.147
+    },
+    {
+      "resource_id": "Ambulance-7",
+      "type": "ambulance",
+      "capacity_people": 4,
+      "base_lat": 27.9286,
+      "base_lng": 85.151
+    },
+    {
+      "resource_id": "Ambulance-8",
+      "type": "ambulance",
+      "capacity_people": 4,
+      "base_lat": 27.9286,
+      "base_lng": 85.155
+    },
+    {
+      "resource_id": "Boat-1",
+      "type": "boat",
+      "capacity_people": 12,
+      "base_lat": 27.9106,
+      "base_lng": 85.143
+    },
+    {
+      "resource_id": "Boat-2",
+      "type": "boat",
+      "capacity_people": 12,
+      "base_lat": 27.9106,
+      "base_lng": 85.147
+    },
+    {
+      "resource_id": "Boat-3",
+      "type": "boat",
+      "capacity_people": 12,
+      "base_lat": 27.9106,
+      "base_lng": 85.151
+    }
+  ],
+  "hospitals": [
+    {
+      "hospital_id": "Hospital-1",
+      "beds": 120,
+      "lat": 27.9326,
+      "lng": 85.153
+    },
+    {
+      "hospital_id": "Hospital-2",
+      "beds": 60,
+      "lat": 27.9366,
+      "lng": 85.159
+    }
+  ]
+}

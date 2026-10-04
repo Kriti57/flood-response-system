@@ -1,0 +1,8 @@
+[
+  {"zone_id": "Z1", "risk_score": 0.81, "population_affected": 8400, "road_accessibility": 0.3, "priority_rank": 1},
+  {"zone_id": "Z2", "risk_score": 0.45, "population_affected": 12000, "road_accessibility": 0.8, "priority_rank": 4},
+  {"zone_id": "Z3", "risk_score": 0.62, "population_affected": 5200, "road_accessibility": 0.5, "priority_rank": 3},
+  {"zone_id": "Z4", "risk_score": 0.77, "population_affected": 9100, "road_accessibility": 0.2, "priority_rank": 2},
+  {"zone_id": "Z5", "risk_score": 0.20, "population_affected": 15000, "road_accessibility": 0.9, "priority_rank": 6},
+  {"zone_id": "Z6", "risk_score": 0.38, "population_affected": 3000, "road_accessibility": 0.6, "priority_rank": 5}
+]

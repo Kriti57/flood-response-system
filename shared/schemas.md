@@ -55,3 +55,4 @@ One object per resource:
 - Field names must match exactly (case-sensitive).
 - If a field isn't ready yet, send it with a placeholder value (e.g. `0.5`), never omit it.
 - Any schema CHANGE must be posted in the group chat and agreed by whoever sends/receives it.
+- Note: if a resource is not assigned to any zone, "assigned_zone" will be null (not a string).
