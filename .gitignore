@@ -1,3 +1,5 @@
 __pycache__/
 *.pyc
 .streamlit/
+module_b_risk_scoring/data/
+module_b_risk_scoring/cache/
