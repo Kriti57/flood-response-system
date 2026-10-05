@@ -1,5 +1,6 @@
 __pycache__/
 *.pyc
 .streamlit/
-module_b_risk_scoring/data/
+module_b_risk_scoring/data/*
+!module_b_risk_scoring/data/zones.geojson
 module_b_risk_scoring/cache/
