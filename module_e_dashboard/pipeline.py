@@ -3,7 +3,7 @@ from pathlib import Path
 
 DATA_DIR = Path(__file__).parent / "mock_data"
 REAL_ALLOCATION_PATH = Path(__file__).parent.parent / "module_c_allocation" / "allocation_output.json"
-
+REAL_RISK_PATH = Path(__file__).parent.parent / "module_b_risk_scoring" / "sample_output" / "risk_output.json"
 
 def load_json(filename):
     """Load a JSON file from the mock_data folder."""
@@ -17,12 +17,15 @@ def load_real_allocation():
     with open(REAL_ALLOCATION_PATH, "r", encoding="utf-8") as file:
         return json.load(file)
 
+def load_real_risk():
+    with open(REAL_RISK_PATH, "r", encoding="utf-8") as file:
+        return json.load(file)
 
 def run_pipeline():
     """Returns all four stages as a dict. Used by app.py (Streamlit dashboard)."""
     return {
         "flood": load_json("a_flood_output.json"),          # TODO: Person A real output
-        "risk": load_json("b_risk_output.json"),             # TODO: Person B real output
+        "risk": load_real_risk(),                             # Person B real output (merged)
         "allocation": load_real_allocation(),                # Person C real output (merged)
         "routes": load_json("d_route_output.json"),          # TODO: Person D real output
     }
@@ -40,7 +43,7 @@ def main():
     for zone in data["flood"]:
         print(f"{zone['zone_id']}: Flood={zone['flood_pct']*100:.0f}% | Confidence={zone['mask_confidence']*100:.0f}%")
 
-    print("\n[2] RISK SCORING (mock)")
+    print("\n[2] RISK SCORING (REAL - Person B)")
     for zone in data["risk"]:
         print(f"{zone['zone_id']}: Risk={zone['risk_score']:.2f} | Population={zone['population_affected']} | Priority={zone['priority_rank']}")
 

@@ -13,6 +13,7 @@ from streamlit_folium import st_folium
 
 DATA_DIR = Path(__file__).parent / "mock_data"
 REAL_ALLOCATION_PATH = Path(__file__).parent.parent / "module_c_allocation" / "allocation_output.json"
+REAL_RISK_PATH = Path(__file__).parent.parent / "module_b_risk_scoring" / "sample_output" / "risk_output.json"
 
 MAP_CENTER = [27.9226, 85.1490]
 
@@ -31,13 +32,16 @@ def load_real_allocation():
     with open(REAL_ALLOCATION_PATH, "r", encoding="utf-8") as file:
         return json.load(file)
 
+def load_real_risk():
+    with open(REAL_RISK_PATH, "r", encoding="utf-8") as file:
+        return json.load(file)
 
 # --------------------------------------------------
 # Load pipeline outputs
 # --------------------------------------------------
 
 flood_data = load_json("a_flood_output.json")
-risk_data = load_json("b_risk_output.json")
+risk_data = load_real_risk()
 allocation_data = load_real_allocation()
 route_data = load_json("d_route_output.json")
 
