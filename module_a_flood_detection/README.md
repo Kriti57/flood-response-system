@@ -25,6 +25,10 @@ One object per zone, Z1 (top-left) to Z9 (bottom-right), row by row:
 
 ## Results
 - Validation IoU: 0.51 (67 chips, Sen1Floods11 hand-labelled split)
+## Results new
+- Test IoU: 0.59, test F1: 0.742 (67 held-out Sen1Floods11 chips; pixels without a label are ignored)
+- Validation IoU: 0.51 (67 chips, used to pick the best epoch)
+- Setup: U-Net, ResNet34 encoder (ImageNet pretrained), Sentinel-1 VV+VH input, BCE + Dice loss, 8 epochs, batch size 4, learning rate 1e-3
 
 ## Limitations
 - Trained and evaluated on Sen1Floods11 only; no Nepal-labelled data.
