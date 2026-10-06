@@ -8,7 +8,7 @@
   },
   {
     "zone_id":"Z3",
-    "risk_score":0.72,
+    "risk_score":0.73,
     "population_affected":18533,
     "road_accessibility":0.5,
     "priority_rank":2
@@ -43,14 +43,14 @@
   },
   {
     "zone_id":"Z9",
-    "risk_score":0.64,
+    "risk_score":0.65,
     "population_affected":11170,
     "road_accessibility":0.5,
     "priority_rank":7
   },
   {
     "zone_id":"Z4",
-    "risk_score":0.58,
+    "risk_score":0.59,
     "population_affected":8654,
     "road_accessibility":0.5,
     "priority_rank":8
