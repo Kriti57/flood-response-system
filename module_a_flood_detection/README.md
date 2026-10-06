@@ -1,123 +1,32 @@
-# Module A — Flood Detection
+# Module A - Flood Detection
 
-## Overview
+Detects flooded pixels in Sentinel-1 radar images and reports the flood fraction per zone.
 
-This module detects flooded areas from satellite images using a **U-Net image segmentation model**.
+## What it does
+Sentinel-1 chip (VV + VH) -> U-Net (ResNet34 encoder) -> flood probability per pixel -> 3x3 grid (Z1-Z9) -> JSON for Module B.
 
-The module takes a satellite image as input and produces a **flood mask**, showing which parts of the image are affected by water/flooding.
+## Files
+- data_loader.py - reads Sen1Floods11 chips and labels (SAR bands only, no-data pixels ignored)
+- train.py - trains the U-Net (BCE + Dice loss, validation IoU)
+- inference.py - image in, flood mask / probabilities out
+- aggregate_zones.py - mask to flood_pct and mask_confidence per zone
+- outputs/ - sample output JSON
 
-The flood information is then converted into a percentage for each zone and passed to **Module B — Risk Scoring**.
+## How to run
+1. Install: `pip install -r requirements.txt`
+2. Train (GPU recommended, e.g. Colab): `python train.py --base <path to Sen1Floods11_8Channel>`
+3. Predict: `python inference.py --weights flood_unet_best.pt --image <chip>_image.tif --out outputs/sample_output.json`
 
----
+## Output format (schema 1)
+One object per zone, Z1 (top-left) to Z9 (bottom-right), row by row:
+`{"zone_id": "Z1", "flood_pct": 0.62, "mask_confidence": 0.88}`
+- flood_pct: fraction of valid pixels predicted as flood, 0 to 1
+- mask_confidence: average model certainty in the zone, 0.5 to 1
 
-## How It Works
+## Results
+- Validation IoU: 0.51 (67 chips, Sen1Floods11 hand-labelled split)
 
-```text
-Satellite Image
-       ↓
-   U-Net Model
-       ↓
-   Flood Mask
-       ↓
-Flooded Area (%)
-       ↓
-Module B — Risk Scoring
-```
-
----
-
-## Dataset
-
-We use the **Sen1Floods11** dataset for training and evaluation.
-
-The dataset contains:
-
-* Satellite images
-* Corresponding flood labels/masks
-* Training, validation, and test splits
-
-The dataset is **not stored in this GitHub repository** because of its large size.
-
----
-
-## Main Tasks
-
-This module is responsible for:
-
-1. Loading satellite images and flood masks
-2. Preprocessing the images
-3. Training the U-Net segmentation model
-4. Predicting flood masks for new images
-5. Calculating the percentage of flooded area
-6. Sending the flood information to the next module
-
----
-
-## Expected Output
-
-For each zone, this module provides:
-
-```json
-{
-  "zone_id": "Z1",
-  "flood_pct": 0.62,
-  "mask_confidence": 0.88
-}
-```
-
-### Fields
-
-* `zone_id` — Identifier of the affected zone
-* `flood_pct` — Percentage of the zone detected as flooded
-* `mask_confidence` — Confidence of the flood segmentation result
-
-The output follows the shared project schema.
-
----
-
-## Project Files
-
-| File                 | Purpose                                                            |
-| -------------------- | ------------------------------------------------------------------ |
-| `data_loader.py`     | Loads and preprocesses satellite images and masks                  |
-| `train.py`           | Trains the U-Net model                                             |
-| `inference.py`       | Generates flood masks for new images                               |
-| `evaluate.py`        | Evaluates model performance                                        |
-| `aggregate_zones.py` | Converts pixel-level predictions into zone-level flood percentages |
-
----
-
-## Model
-
-The module uses a **U-Net segmentation model** with a pretrained encoder.
-
-The model performs pixel-level classification:
-
-```text
-Satellite Image
-      ↓
-     U-Net
-      ↓
-Each pixel → Flood / Not Flood
-```
-
----
-
-## Evaluation
-
-The model will be evaluated using:
-
-* **IoU (Intersection over Union)**
-* **F1 Score**
-
-These metrics measure how closely the predicted flood mask matches the actual flood mask.
-
----
-
-## Important
-
-* Do not upload the dataset or trained model files to GitHub unless specifically required.
-* Keep dataset paths/configuration separate from the source code.
-* Follow the shared project schema when sending output to other modules.
-* Changes to shared schemas should be discussed with the team before modifying them.
-
+## Limitations
+- Trained and evaluated on Sen1Floods11 only; no Nepal-labelled data.
+- The sample JSON in outputs/ comes from a Sen1Floods11 test chip split into an equal 3x3 grid. It is NOT Nepal imagery.
+- Model weights are not in the repo (shared via Drive).
