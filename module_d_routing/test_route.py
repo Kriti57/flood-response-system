@@ -5,7 +5,13 @@ import unittest
 
 import networkx as nx
 
-from route import RoutingError, find_route, get_blocked_edges_from_flood_data, route_assignments
+from route import (
+    RoutingError,
+    find_route,
+    get_blocked_edges_from_flood_data,
+    get_zone_edges_from_geojson,
+    route_assignments,
+)
 
 
 def make_graph(include_alternate: bool = True) -> nx.MultiDiGraph:
@@ -52,6 +58,31 @@ class RouteTests(unittest.TestCase):
         flood_data = [{"zone_id": "Z1", "flood_pct": 0.75}, {"zone_id": "Z2", "flood_pct": 0.2}]
         edges = get_blocked_edges_from_flood_data(flood_data, {"Z1": [["a", "b"]], "Z2": [["c", "d"]]})
         self.assertEqual(edges, [["a", "b"]])
+
+    def test_geojson_maps_edges_by_polygon_intersection(self) -> None:
+        zones = {
+            "features": [
+                {
+                    "properties": {"zone_id": "Z1"},
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[[85.004, 26.999], [85.006, 26.999], [85.006, 27.001], [85.004, 27.001], [85.004, 26.999]]],
+                    },
+                },
+                {
+                    "properties": {"zone_id": "Z2"},
+                    "geometry": {
+                        "type": "Polygon",
+                        "coordinates": [[[85.04, 26.999], [85.05, 26.999], [85.05, 27.001], [85.04, 27.001], [85.04, 26.999]]],
+                    },
+                },
+            ]
+        }
+
+        edges = get_zone_edges_from_geojson(make_graph(), zones)
+
+        self.assertEqual(edges["Z1"], [["start", "middle"]])
+        self.assertEqual(edges["Z2"], [])
 
     def test_assignment_routes_to_zone_destination(self) -> None:
         assignments = [{

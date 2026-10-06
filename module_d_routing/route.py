@@ -174,6 +174,59 @@ def get_blocked_edges_from_flood_data(
     return blocked
 
 
+def get_zone_edges_from_geojson(
+    graph: nx.Graph,
+    zone_geojson: dict[str, Any],
+) -> dict[str, list[list[Any]]]:
+    """Map road-graph edges intersecting each zone polygon."""
+    try:
+        from shapely.geometry import LineString, shape
+    except ImportError as exc:
+        raise RoutingError("Shapely is required to map road edges to zone polygons.") from exc
+
+    features = zone_geojson.get("features")
+    if not isinstance(features, list):
+        raise RoutingError("Zone GeoJSON must be a FeatureCollection with a features list.")
+
+    polygons = {}
+    for feature in features:
+        try:
+            zone_id = str(feature["properties"]["zone_id"])
+            polygons[zone_id] = shape(feature["geometry"])
+        except (KeyError, TypeError, ValueError) as exc:
+            raise RoutingError("Each zone feature must include a zone_id and valid geometry.") from exc
+
+    zone_edges = {zone_id: [] for zone_id in polygons}
+    seen_edges = {zone_id: set() for zone_id in polygons}
+    if graph.is_multigraph():
+        graph_edges = ((start, end, data) for start, end, _, data in graph.edges(keys=True, data=True))
+    else:
+        graph_edges = graph.edges(data=True)
+
+    for start, end, data in graph_edges:
+        geometry = data.get("geometry")
+        if geometry is None:
+            try:
+                geometry = LineString(
+                    [
+                        (float(graph.nodes[start]["x"]), float(graph.nodes[start]["y"])),
+                        (float(graph.nodes[end]["x"]), float(graph.nodes[end]["y"])),
+                    ]
+                )
+            except (KeyError, TypeError, ValueError) as exc:
+                raise RoutingError(f"Road edge {start!r} -> {end!r} has no usable geometry.") from exc
+        if not hasattr(geometry, "intersects"):
+            raise RoutingError(f"Road edge {start!r} -> {end!r} has invalid geometry.")
+
+        edge_key = frozenset((start, end))
+        for zone_id, polygon in polygons.items():
+            if edge_key not in seen_edges[zone_id] and geometry.intersects(polygon):
+                zone_edges[zone_id].append([start, end])
+                seen_edges[zone_id].add(edge_key)
+
+    return zone_edges
+
+
 def route_assignments(
     graph: nx.Graph,
     assignments: Iterable[dict[str, Any]],
@@ -234,6 +287,12 @@ def main() -> int:
     parser.add_argument("--input", type=Path, default=Path(__file__).parent / "sample_input.json")
     parser.add_argument("--output", type=Path, default=Path(__file__).parent / "sample_output.json")
     parser.add_argument("--graph", type=Path, default=GRAPH_PATH)
+    parser.add_argument(
+        "--zones",
+        type=Path,
+        default=Path(__file__).parent.parent / "module_b_risk_scoring" / "data" / "zones.geojson",
+        help="GeoJSON polygons used to associate roads with zones",
+    )
     parser.add_argument("--default-speed-kph", type=float, default=DEFAULT_SPEED_KPH)
     args = parser.parse_args()
 
@@ -254,13 +313,29 @@ def main() -> int:
             raise RoutingError("Input JSON must be an assignment list or an object with an assignments list.")
         if not isinstance(assignments, list):
             raise RoutingError("The assignments field must be a JSON list.")
+        flood_data = options.get("flood_data")
+        zone_edges = options.get("zone_edges") or {}
+        if flood_data:
+            if not args.zones.is_file():
+                raise RoutingError(f"Zone polygons not found at {args.zones}.")
+            derived_zone_edges = get_zone_edges_from_geojson(graph, _load_json(args.zones))
+            for zone_id, edges in derived_zone_edges.items():
+                zone_edges.setdefault(zone_id, []).extend(edges)
+            uncovered_zones = [zone_id for zone_id, edges in derived_zone_edges.items() if not edges]
+            if uncovered_zones:
+                print(
+                    "Warning: the road graph has no edges in zones "
+                    + ", ".join(uncovered_zones)
+                    + "; use a wider graph for complete zone routing.",
+                    file=sys.stderr,
+                )
         routes = route_assignments(
             graph,
             assignments,
             options.get("zone_destinations"),
             options.get("blocked_edges"),
-            options.get("flood_data"),
-            options.get("zone_edges"),
+            flood_data,
+            zone_edges,
             options.get("flood_threshold", FLOOD_THRESHOLD),
             args.default_speed_kph,
         )

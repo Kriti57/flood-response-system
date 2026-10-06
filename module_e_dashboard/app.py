@@ -32,9 +32,31 @@ def load_real_allocation():
     with open(REAL_ALLOCATION_PATH, "r", encoding="utf-8") as file:
         return json.load(file)
 
+
 def load_real_risk():
     with open(REAL_RISK_PATH, "r", encoding="utf-8") as file:
         return json.load(file)
+
+
+def risk_color(score):
+    if score >= 0.7:
+        return "🔴"
+    elif score >= 0.4:
+        return "🟠"
+    else:
+        return "🟢"
+
+
+def marker_style(resource_id):
+    if resource_id.startswith("RescueTeam"):
+        return {"color": "red", "icon": "user-shield"}
+    elif resource_id.startswith("Ambulance"):
+        return {"color": "blue", "icon": "plus"}
+    elif resource_id.startswith("Boat"):
+        return {"color": "darkgreen", "icon": "ship"}
+    else:
+        return {"color": "gray", "icon": "question"}
+
 
 # --------------------------------------------------
 # Load pipeline outputs
@@ -47,7 +69,7 @@ route_data = load_json("d_route_output.json")
 
 
 # --------------------------------------------------
-# Page configuration
+# Page configuration + custom styling
 # --------------------------------------------------
 
 st.set_page_config(
@@ -56,17 +78,42 @@ st.set_page_config(
     layout="wide"
 )
 
+st.markdown("""
+<style>
+    .main-header {
+        font-size: 2.2rem;
+        font-weight: 700;
+        margin-bottom: 0;
+    }
+    .sub-header {
+        font-size: 1.1rem;
+        color: #9ca3af;
+        margin-top: 0;
+    }
+    div[data-testid="stMetric"] {
+        background-color: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 10px;
+        padding: 14px 18px;
+    }
+    div[data-testid="stDataFrame"] {
+        border-radius: 8px;
+        overflow: hidden;
+    }
+</style>
+""", unsafe_allow_html=True)
+
 
 # --------------------------------------------------
 # Header
 # --------------------------------------------------
 
-st.title("🌊 Flood Response System")
-st.subheader("Trishuli / Nuwakot, Nepal")
+st.markdown('<p class="main-header">🌊 Flood Response System</p>', unsafe_allow_html=True)
+st.markdown('<p class="sub-header">Trishuli / Nuwakot, Nepal — Emergency Response Dashboard</p>', unsafe_allow_html=True)
 
 st.info(
-    "Simulated flood-response scenario inspired by the "
-    "August 2026 Bhote Koshi–Trishuli flood event."
+    "📍 Simulated flood-response scenario inspired by the August 2026 Bhote Koshi-Trishuli flood event.",
+    icon="ℹ️"
 )
 
 
@@ -85,15 +132,14 @@ allocation_df = pd.DataFrame(allocation_data)
 
 total_population = risk_df["population_affected"].sum()
 highest_risk = risk_df["risk_score"].max()
-highest_flood = flood_df["flood_pct"].max()
+highest_risk_zone = risk_df.loc[risk_df["risk_score"].idxmax(), "zone_id"]
 resources = len(allocation_df)
 
 col1, col2, col3, col4 = st.columns(4)
-
-col1.metric("Zones Monitored", len(flood_df))
-col2.metric("Population Affected", f"{total_population:,}")
-col3.metric("Highest Risk Score", f"{highest_risk:.2f}")
-col4.metric("Resources Deployed", resources)
+col1.metric("🗺️ Zones Monitored", len(flood_df))
+col2.metric("👥 Population Affected", f"{total_population:,}")
+col3.metric("⚠️ Highest Risk Zone", f"{highest_risk_zone} ({highest_risk:.2f})")
+col4.metric("🚨 Resources Deployed", resources)
 
 
 # --------------------------------------------------
@@ -106,6 +152,7 @@ left, right = st.columns(2)
 
 with left:
     st.subheader("🌊 Flood Detection")
+    st.caption("Source: U-Net (ResNet34), Sentinel-1 SAR — IoU 0.59, F1 0.742")
 
     flood_display = flood_df.copy()
     flood_display["flood_pct"] = (flood_display["flood_pct"] * 100).round(1)
@@ -114,21 +161,24 @@ with left:
 
     st.dataframe(flood_display, width="stretch", hide_index=True)
 
-
 with right:
     st.subheader("⚠️ Risk Assessment")
+    st.caption("Risk = weighted(flood %, population, road access, rainfall)")
 
     risk_display = risk_df[
         ["zone_id", "risk_score", "population_affected", "road_accessibility", "priority_rank"]
     ].copy()
-    risk_display.columns = ["Zone", "Risk Score", "Population", "Road Access", "Priority"]
+    risk_display["risk_level"] = risk_display["risk_score"].apply(risk_color)
+    risk_display = risk_display[["risk_level", "zone_id", "risk_score", "population_affected", "road_accessibility", "priority_rank"]]
+    risk_display.columns = ["", "Zone", "Risk Score", "Population", "Road Access", "Priority"]
 
     st.dataframe(risk_display, width="stretch", hide_index=True)
 
 
 # --------------------------------------------------
-# Resource allocation
+# Allocation comparison
 # --------------------------------------------------
+
 st.divider()
 st.subheader("📊 Optimized vs Baseline Allocation")
 
@@ -137,15 +187,35 @@ col_a.metric("Baseline (Greedy)", "86.51")
 col_b.metric("Optimized (ILP)", "92.02", delta="+6.4%")
 col_c.metric("Zones Covered", "3 of 9", help="Zones that received at least one resource")
 
-st.caption("Score = sum of (risk_score x people_covered) across all zones. Optimized allocation beats naive greedy baseline by matching resource type to zone conditions (e.g. boats sent to low-road-access zones).")
+st.caption(
+    "Score = sum of (risk_score x people_covered) across all zones. Optimized allocation "
+    "beats naive greedy baseline by matching resource type to zone conditions "
+    "(e.g. boats sent to low-road-access zones). *Figures from Day 2 test data — "
+    "see module_c_allocation/results.md for current status.*"
+)
+
+
+# --------------------------------------------------
+# Resource allocation
+# --------------------------------------------------
 
 st.divider()
 st.subheader("🚑 Resource Allocation")
 
-allocation_display = allocation_df[["resource_id", "assigned_zone"]].copy()
-allocation_display.columns = ["Resource", "Assigned Zone"]
+alloc_tab1, alloc_tab2 = st.tabs(["Table", "By Type"])
 
-st.dataframe(allocation_display, width="stretch", hide_index=True)
+with alloc_tab1:
+    allocation_display = allocation_df[["resource_id", "assigned_zone"]].copy()
+    allocation_display.columns = ["Resource", "Assigned Zone"]
+    st.dataframe(allocation_display, width="stretch", hide_index=True)
+
+with alloc_tab2:
+    type_counts = allocation_df["resource_id"].apply(
+        lambda r: "Rescue Team" if r.startswith("RescueTeam")
+        else "Ambulance" if r.startswith("Ambulance")
+        else "Boat" if r.startswith("Boat") else "Other"
+    ).value_counts()
+    st.bar_chart(type_counts)
 
 
 # --------------------------------------------------
@@ -154,18 +224,9 @@ st.dataframe(allocation_display, width="stretch", hide_index=True)
 
 st.divider()
 st.subheader("🗺️ Response Map")
+st.caption("🔴 Rescue Teams &nbsp;&nbsp; 🔵 Ambulances &nbsp;&nbsp; 🟢 Boats", unsafe_allow_html=True)
 
-m = folium.Map(location=MAP_CENTER, zoom_start=12)
-
-def marker_style(resource_id):
-    if resource_id.startswith("RescueTeam"):
-        return {"color": "red", "icon": "user-shield"}
-    elif resource_id.startswith("Ambulance"):
-        return {"color": "blue", "icon": "plus"}
-    elif resource_id.startswith("Boat"):
-        return {"color": "darkgreen", "icon": "ship"}
-    else:
-        return {"color": "gray", "icon": "question"}
+m = folium.Map(location=MAP_CENTER, zoom_start=12, tiles="OpenStreetMap")
 
 for resource in allocation_data:
     lat = resource["base_lat"]
@@ -181,11 +242,12 @@ for resource in allocation_data:
 
 for route_data_item in route_data:
     route = route_data_item["route"]
-
     folium.PolyLine(
         locations=route,
         popup=f"{route_data_item['resource_id']} - ETA: {route_data_item['eta_minutes']} min",
-        weight=5
+        weight=4,
+        color="#4a90d9",
+        opacity=0.8
     ).add_to(m)
 
 m.fit_bounds([[27.90, 85.14], [27.95, 85.16]])
@@ -212,4 +274,7 @@ st.dataframe(route_display, width="stretch", hide_index=True)
 # --------------------------------------------------
 
 st.divider()
-st.caption("Resource allocation is real (Person C, merged). Flood, risk, and routing data are still simulated.")
+st.caption(
+    "✅ Risk Scoring and Resource Allocation use real data (merged). "
+    "⏳ Flood Detection (demo chip) and Routing are being finalized with real inputs."
+)
