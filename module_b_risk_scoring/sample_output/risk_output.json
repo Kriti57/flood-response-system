@@ -1,64 +1,64 @@
 [
   {
-    "zone_id":"Z5",
-    "risk_score":0.83,
-    "population_affected":27643,
+    "zone_id":"Z2",
+    "risk_score":0.76,
+    "population_affected":13720,
     "road_accessibility":0.5,
     "priority_rank":1
   },
   {
     "zone_id":"Z3",
-    "risk_score":0.73,
-    "population_affected":18533,
+    "risk_score":0.7,
+    "population_affected":13103,
     "road_accessibility":0.5,
     "priority_rank":2
   },
   {
-    "zone_id":"Z2",
-    "risk_score":0.71,
-    "population_affected":16624,
+    "zone_id":"Z1",
+    "risk_score":0.68,
+    "population_affected":7589,
     "road_accessibility":0.5,
     "priority_rank":3
   },
   {
-    "zone_id":"Z8",
-    "risk_score":0.71,
-    "population_affected":16715,
+    "zone_id":"Z5",
+    "risk_score":0.39,
+    "population_affected":6988,
     "road_accessibility":0.5,
     "priority_rank":4
   },
   {
-    "zone_id":"Z6",
-    "risk_score":0.7,
-    "population_affected":15823,
+    "zone_id":"Z4",
+    "risk_score":0.38,
+    "population_affected":3772,
     "road_accessibility":0.5,
     "priority_rank":5
   },
   {
-    "zone_id":"Z7",
-    "risk_score":0.66,
-    "population_affected":12441,
+    "zone_id":"Z6",
+    "risk_score":0.22,
+    "population_affected":1803,
     "road_accessibility":0.5,
     "priority_rank":6
   },
   {
-    "zone_id":"Z9",
-    "risk_score":0.65,
-    "population_affected":11170,
+    "zone_id":"Z8",
+    "risk_score":0.15,
+    "population_affected":338,
     "road_accessibility":0.5,
     "priority_rank":7
   },
   {
-    "zone_id":"Z4",
-    "risk_score":0.59,
-    "population_affected":8654,
+    "zone_id":"Z9",
+    "risk_score":0.15,
+    "population_affected":196,
     "road_accessibility":0.5,
     "priority_rank":8
   },
   {
-    "zone_id":"Z1",
-    "risk_score":0.57,
-    "population_affected":7261,
+    "zone_id":"Z7",
+    "risk_score":0.14,
+    "population_affected":145,
     "road_accessibility":0.5,
     "priority_rank":9
   }
