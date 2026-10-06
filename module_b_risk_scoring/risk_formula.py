@@ -31,6 +31,11 @@ def load_json(path):
 
 
 def main():
+    if not df["flood_pct"].between(0, 1).all():
+        print("WARNING: flood_pct has values outside 0-1. Check Person A's file!")
+    missing = set(pop["zone_id"]) - set(flood["zone_id"])
+    if missing:
+        (f"WARNING: no flood data for zones: {sorted(missing)}")
     # --- inputs ---
     pop = pd.DataFrame(load_json(POP_PATH))
     if os.path.exists(FLOOD_PATH):
