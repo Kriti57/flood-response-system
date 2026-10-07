@@ -1,0 +1,47 @@
+[
+  {
+    "zone_id": "Z1",
+    "flood_pct": 0.9499,
+    "mask_confidence": 0.8912
+  },
+  {
+    "zone_id": "Z2",
+    "flood_pct": 0.8186,
+    "mask_confidence": 0.8553
+  },
+  {
+    "zone_id": "Z3",
+    "flood_pct": 0.6958,
+    "mask_confidence": 0.8549
+  },
+  {
+    "zone_id": "Z4",
+    "flood_pct": 0.3942,
+    "mask_confidence": 0.8296
+  },
+  {
+    "zone_id": "Z5",
+    "flood_pct": 0.2528,
+    "mask_confidence": 0.9045
+  },
+  {
+    "zone_id": "Z6",
+    "flood_pct": 0.1129,
+    "mask_confidence": 0.9351
+  },
+  {
+    "zone_id": "Z7",
+    "flood_pct": 0.0116,
+    "mask_confidence": 0.964
+  },
+  {
+    "zone_id": "Z8",
+    "flood_pct": 0.0201,
+    "mask_confidence": 0.954
+  },
+  {
+    "zone_id": "Z9",
+    "flood_pct": 0.0173,
+    "mask_confidence": 0.9586
+  }
+]
