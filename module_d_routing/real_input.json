@@ -1,0 +1,178 @@
+{
+  "assignments": [
+    {
+      "resource_id": "RescueTeam-1",
+      "assigned_zone": "Z1",
+      "base_lat": 27.9186,
+      "base_lng": 85.143
+    },
+    {
+      "resource_id": "RescueTeam-2",
+      "assigned_zone": "Z1",
+      "base_lat": 27.9186,
+      "base_lng": 85.147
+    },
+    {
+      "resource_id": "RescueTeam-3",
+      "assigned_zone": "Z1",
+      "base_lat": 27.9186,
+      "base_lng": 85.151
+    },
+    {
+      "resource_id": "RescueTeam-4",
+      "assigned_zone": "Z1",
+      "base_lat": 27.9186,
+      "base_lng": 85.155
+    },
+    {
+      "resource_id": "RescueTeam-5",
+      "assigned_zone": "Z1",
+      "base_lat": 27.9146,
+      "base_lng": 85.143
+    },
+    {
+      "resource_id": "Ambulance-1",
+      "assigned_zone": "Z2",
+      "base_lat": 27.9246,
+      "base_lng": 85.143
+    },
+    {
+      "resource_id": "Ambulance-2",
+      "assigned_zone": "Z2",
+      "base_lat": 27.9246,
+      "base_lng": 85.147
+    },
+    {
+      "resource_id": "Ambulance-3",
+      "assigned_zone": "Z2",
+      "base_lat": 27.9246,
+      "base_lng": 85.151
+    },
+    {
+      "resource_id": "Ambulance-4",
+      "assigned_zone": "Z2",
+      "base_lat": 27.9246,
+      "base_lng": 85.155
+    },
+    {
+      "resource_id": "Ambulance-5",
+      "assigned_zone": "Z2",
+      "base_lat": 27.9286,
+      "base_lng": 85.143
+    },
+    {
+      "resource_id": "Ambulance-6",
+      "assigned_zone": "Z2",
+      "base_lat": 27.9286,
+      "base_lng": 85.147
+    },
+    {
+      "resource_id": "Ambulance-7",
+      "assigned_zone": "Z2",
+      "base_lat": 27.9286,
+      "base_lng": 85.151
+    },
+    {
+      "resource_id": "Ambulance-8",
+      "assigned_zone": "Z2",
+      "base_lat": 27.9286,
+      "base_lng": 85.155
+    },
+    {
+      "resource_id": "Boat-1",
+      "assigned_zone": "Z4",
+      "base_lat": 27.9106,
+      "base_lng": 85.143
+    },
+    {
+      "resource_id": "Boat-2",
+      "assigned_zone": "Z4",
+      "base_lat": 27.9106,
+      "base_lng": 85.147
+    },
+    {
+      "resource_id": "Boat-3",
+      "assigned_zone": "Z4",
+      "base_lat": 27.9106,
+      "base_lng": 85.151
+    }
+  ],
+  "zone_destinations": {
+    "Z1": {
+      "lat": 27.9826600601,
+      "lng": 85.0810265366
+    },
+    "Z2": {
+      "lat": 27.9826600601,
+      "lng": 85.149
+    },
+    "Z3": {
+      "lat": 27.9826600601,
+      "lng": 85.2169734634
+    },
+    "Z4": {
+      "lat": 27.9226,
+      "lng": 85.0810265366
+    },
+    "Z5": {
+      "lat": 27.9226,
+      "lng": 85.149
+    },
+    "Z6": {
+      "lat": 27.9226,
+      "lng": 85.2169734634
+    },
+    "Z7": {
+      "lat": 27.8625399399,
+      "lng": 85.0810265366
+    },
+    "Z8": {
+      "lat": 27.8625399399,
+      "lng": 85.149
+    },
+    "Z9": {
+      "lat": 27.8625399399,
+      "lng": 85.2169734634
+    }
+  },
+  "flood_data": [
+    {
+      "zone_id": "Z1",
+      "flood_pct": 0.9499
+    },
+    {
+      "zone_id": "Z2",
+      "flood_pct": 0.8186
+    },
+    {
+      "zone_id": "Z3",
+      "flood_pct": 0.6958
+    },
+    {
+      "zone_id": "Z4",
+      "flood_pct": 0.3942
+    },
+    {
+      "zone_id": "Z5",
+      "flood_pct": 0.2528
+    },
+    {
+      "zone_id": "Z6",
+      "flood_pct": 0.1129
+    },
+    {
+      "zone_id": "Z7",
+      "flood_pct": 0.0116
+    },
+    {
+      "zone_id": "Z8",
+      "flood_pct": 0.0201
+    },
+    {
+      "zone_id": "Z9",
+      "flood_pct": 0.0173
+    }
+  ],
+  "zone_edges": {},
+  "blocked_edges": []
+}
