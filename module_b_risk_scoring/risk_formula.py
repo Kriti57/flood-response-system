@@ -4,14 +4,14 @@ import pandas as pd
 from weather import get_rainfall_mm, rainfall_to_adjustment
 
 POP_PATH = "data/population_per_zone.json"    # from population_overlay.py
-FLOOD_PATH = "data/flood_input.json"          # Person A's real output (Day 3)
-ROAD_PATH = "data/road_input.json"            # Person D's real output (Day 4)
+FLOOD_PATH = "data/flood_input.json"          # Ishita's output
+ROAD_PATH = "data/road_input.json"            # Priya's output
 OUT_PATH = "sample_output/risk_output.json"
 
 # Formula weights (tunable parameters, state this in your demo)
 W_FLOOD, W_POP, W_ROAD, W_RAIN = 0.4, 0.3, 0.2, 0.1
 
-# DUMMY Person A output, used only if data/flood_input.json doesn't exist yet
+# DUMMY flood data, used only if data/flood_input.json doesn't exist
 DUMMY_FLOOD = [
     {"zone_id": "Z1", "flood_pct": 0.10, "mask_confidence": 0.90},
     {"zone_id": "Z2", "flood_pct": 0.35, "mask_confidence": 0.88},
@@ -27,12 +27,16 @@ DUMMY_FLOOD = [
 
 def load_json(path):
     with open(path) as f:
-        return json.load(f)
+        data = json.load(f)
+    if isinstance(data, dict):          # unwrap {"zones": [...]} style files
+        data = next(iter(data.values()))
+    return data
 
 
 def main():
     # --- inputs ---
     pop = pd.DataFrame(load_json(POP_PATH))
+
     if os.path.exists(FLOOD_PATH):
         flood = pd.DataFrame(load_json(FLOOD_PATH))
         print("Using REAL flood data from Person A")
@@ -40,16 +44,29 @@ def main():
         flood = pd.DataFrame(DUMMY_FLOOD)
         print("Using DUMMY flood data")
 
+    # join flood + population (df is created HERE)
     df = flood.merge(pop, on="zone_id", how="left")
+
+    # safety checks on the flood input (must come after df exists)
+    if not df["flood_pct"].between(0, 1).all():
+        print("WARNING: flood_pct has values outside 0-1. Check Person A's file!")
+    missing_flood = set(pop["zone_id"]) - set(flood["zone_id"])
+    if missing_flood:
+        print(f"WARNING: no flood data for zones: {sorted(missing_flood)}")
     if df["total_population"].isna().any():
         print("WARNING: some zone_ids have no population. Check zone IDs match!")
     df["total_population"] = df["total_population"].fillna(0)
 
-    # road accessibility: dummy 0.5 until Person D's file exists
+    # road accessibility: dummy 0.5 until the real file exists
     if os.path.exists(ROAD_PATH):
         road = pd.DataFrame(load_json(ROAD_PATH))[["zone_id", "road_accessibility"]]
         df = df.merge(road, on="zone_id", how="left")
+        missing_road = set(pop["zone_id"]) - set(road["zone_id"])
+        if missing_road:
+            print(f"WARNING: no road data for zones: {sorted(missing_road)} (using 0.5)")
         df["road_accessibility"] = df["road_accessibility"].fillna(0.5)
+        if not df["road_accessibility"].between(0, 1).all():
+            print("WARNING: road_accessibility has values outside 0-1. Check Priya's file!")
         print("Using REAL road accessibility from Person D")
     else:
         df["road_accessibility"] = 0.5
@@ -88,3 +105,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
