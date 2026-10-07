@@ -1,0 +1,11 @@
+[
+  { "zone_id": "Z1", "road_accessibility": 0.05 },
+  { "zone_id": "Z2", "road_accessibility": 0.18 },
+  { "zone_id": "Z3", "road_accessibility": 0.30 },
+  { "zone_id": "Z4", "road_accessibility": 0.61 },
+  { "zone_id": "Z5", "road_accessibility": 0.75 },
+  { "zone_id": "Z6", "road_accessibility": 0.89 },
+  { "zone_id": "Z7", "road_accessibility": 0.99 },
+  { "zone_id": "Z8", "road_accessibility": 0.98 },
+  { "zone_id": "Z9", "road_accessibility": 0.98 }
+]
