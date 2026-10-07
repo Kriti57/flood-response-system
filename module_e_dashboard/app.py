@@ -14,6 +14,8 @@ from streamlit_folium import st_folium
 DATA_DIR = Path(__file__).parent / "mock_data"
 REAL_ALLOCATION_PATH = Path(__file__).parent.parent / "module_c_allocation" / "allocation_output.json"
 REAL_RISK_PATH = Path(__file__).parent.parent / "module_b_risk_scoring" / "sample_output" / "risk_output.json"
+REAL_ROUTE_PATH = Path(__file__).parent.parent / "module_d_routing" / "route_output.json"
+REAL_FLOOD_PATH = Path(__file__).parent.parent / "module_a_flood_detection" / "outputs" / "sample_output_DEMO_sen1floods11_chip.json.json"
 
 MAP_CENTER = [27.9226, 85.1490]
 
@@ -37,6 +39,14 @@ def load_real_risk():
     with open(REAL_RISK_PATH, "r", encoding="utf-8") as file:
         return json.load(file)
 
+def load_real_routes():
+    with open(REAL_ROUTE_PATH, "r", encoding="utf-8") as file:
+        return json.load(file)
+
+
+def load_real_flood():
+    with open(REAL_FLOOD_PATH, "r", encoding="utf-8") as file:
+        return json.load(file)
 
 def risk_color(score):
     if score >= 0.7:
@@ -62,10 +72,10 @@ def marker_style(resource_id):
 # Load pipeline outputs
 # --------------------------------------------------
 
-flood_data = load_json("a_flood_output.json")
+flood_data = load_real_flood()
 risk_data = load_real_risk()
 allocation_data = load_real_allocation()
-route_data = load_json("d_route_output.json")
+route_data = load_real_routes()
 
 
 # --------------------------------------------------
@@ -275,6 +285,6 @@ st.dataframe(route_display, width="stretch", hide_index=True)
 
 st.divider()
 st.caption(
-    "✅ Risk Scoring and Resource Allocation use real data (merged). "
-    "⏳ Flood Detection (demo chip) and Routing are being finalized with real inputs."
+    "✅ All four pipeline stages now use real data: Flood Detection (Sen1Floods11 demo chip, "
+    "not Nepal imagery), Risk Scoring, Resource Allocation, and Dynamic Routing."
 )
