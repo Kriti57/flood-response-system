@@ -193,15 +193,16 @@ st.divider()
 st.subheader("📊 Optimized vs Baseline Allocation")
 
 col_a, col_b, col_c = st.columns(3)
-col_a.metric("Baseline (Greedy)", "86.51")
-col_b.metric("Optimized (ILP)", "92.02", delta="+6.4%")
-col_c.metric("Zones Covered", "3 of 9", help="Zones that received at least one resource")
+col_a.metric("Baseline (Greedy)", "85.26")
+col_b.metric("Optimized (ILP)", "88.10", delta="+3.3%")
+col_c.metric("Zones Covered", "3 of 9 (Z1, Z2, Z5)", help="Zones that received at least one resource")
 
 st.caption(
     "Score = sum of (risk_score x people_covered) across all zones. Optimized allocation "
     "beats naive greedy baseline by matching resource type to zone conditions "
-    "(e.g. boats sent to low-road-access zones). *Figures from Day 2 test data — "
-    "see module_c_allocation/results.md for current status.*"
+    "(rescue teams to Z2, ambulances to Z5, boats to Z1, based on real road accessibility). "
+    "Fleet size (5 rescue teams, 8 ambulances, 3 boats) is an assumed scenario, not official "
+    "data - coverage is 125/953 people given this fleet size."
 )
 
 
